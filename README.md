@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AssociateVisuals
 
-## Getting Started
+Portfolio site for AssociateVisuals, a Lagos-based cinematography brand.
+Full spec lives in [docs/associatevisuals-brief.md](docs/associatevisuals-brief.md).
 
-First, run the development server:
+## Stack
+
+Next.js (App Router, TypeScript), Tailwind CSS 4, Lenis smooth scroll,
+GSAP ScrollTrigger, Vercel Analytics. No CMS: content is typed data in
+`content/`.
+
+## Develop
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `content/site.ts` — brand, contact, socials, showreel
+- `content/projects.ts` — portfolio projects (drives /work, case studies, sitemap)
+- `content/services.ts`, `content/process.ts` — homepage lists
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The 17 portfolio videos are linked from Sam's shared Google Drive folders in
+`content/projects.ts`. Players load a Drive preview iframe only after a click;
+the homepage and project grid do not preload video files. Every player also
+links to the original Drive file. Files must remain publicly viewable for
+visitors to play them. Drive controls, availability, and playback restrictions
+are managed by Google. No original video files are stored in this repository.
 
-## Learn More
+Project cards use graphic covers until pictures arrive. Client credits, dates,
+and descriptions are optional and should be added only after confirmation.
+The homepage spotlight is ZIZOU project trailer, not a claimed showreel.
+`lib/cloudinary.ts` remains available for a future hosting migration.
 
-To learn more about Next.js, take a look at the following resources:
+## Before launch
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Confirm domain in `content/site.ts` (`url`)
+- Confirm Instagram/TikTok handles in `content/site.ts`
+- Confirm project credits and descriptions with Sam
+- Add posters and portrait; confirm the preferred homepage spotlight
