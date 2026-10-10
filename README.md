@@ -5,9 +5,9 @@ Full spec lives in [docs/associatevisuals-brief.md](docs/associatevisuals-brief.
 
 ## Stack
 
-Next.js (App Router, TypeScript), Tailwind CSS 4, Lenis smooth scroll,
-GSAP ScrollTrigger, Vercel Analytics. No CMS: content is typed data in
-`content/`.
+Next.js 16 (App Router, TypeScript), React 19, Tailwind CSS 4, CSS Modules,
+and Vercel Analytics. Native scrolling; no scroll interception or reveal
+library on the redesigned pages. No CMS: project content is typed data in `content/`.
 
 ## Develop
 
@@ -17,20 +17,30 @@ npm run dev
 
 ## Content
 
-- `content/site.ts` — brand, contact, socials, showreel
-- `content/projects.ts` — portfolio projects (drives /work, case studies, sitemap)
-- `content/services.ts`, `content/process.ts` — homepage lists
+- `content/site.ts` — brand, contact, socials, metadata
+- `content/projects.ts` — film collection, curated order, formats, orientation, and optional confirmed credits
+- `components/Services.tsx`, `components/Process.tsx` — capabilities and process copy
+- `components/portfolio.module.css`, `app/globals.css` — editorial design system
 
-The 17 portfolio videos are linked from Sam's shared Google Drive folders in
-`content/projects.ts`. Players load a Drive preview iframe only after a click;
-the homepage and project grid do not preload video files. Every player also
-links to the original Drive file. Files must remain publicly viewable for
-visitors to play them. Drive controls, availability, and playback restrictions
-are managed by Google. No original video files are stored in this repository.
+The 17 films are linked from Sam's shared Google Drive folders. Drive-hosted
+project pages show a poster and a direct viewing link; embedding is optional
+and only loads after a click. A return-to-preview control and direct link
+remain available if the embed fails. Google controls availability and playback
+restrictions, and originals must remain publicly viewable.
 
-Project cards use graphic covers until pictures arrive. Client credits, dates,
-and descriptions are optional and should be added only after confirmation.
-The homepage spotlight is ZIZOU project trailer, not a claimed showreel.
+An optimized landscape ZIZOU preview lives in `public/videos/`. A separate
+30fps background copy trims the black head/tail frames and reduces download size,
+without changing the project-page preview. It plays muted and loops in the hero,
+with a pause control. Automatic playback is disabled
+for reduced-motion, data-saving, and reported 2G connections. It pauses outside
+the viewport and when the document is hidden. Its project page uses native
+video controls and `preload="none"`. Other videos are not downloaded on page load.
+
+Project cards use responsive, lazy-loaded frames from the supplied videos.
+Portrait and landscape films have separate presentation. Sam's supplied
+portrait appears in About, immediately after the hero. Client credits, dates,
+and outcomes should be added only after confirmation; no invented testimonials
+or results are displayed. The hero is a ZIZOU project trailer, not a claimed showreel.
 `lib/cloudinary.ts` remains available for a future hosting migration.
 
 ## Before launch
@@ -38,4 +48,5 @@ The homepage spotlight is ZIZOU project trailer, not a claimed showreel.
 - Confirm domain in `content/site.ts` (`url`)
 - Confirm Instagram/TikTok handles in `content/site.ts`
 - Confirm project credits and descriptions with Sam
-- Add posters and portrait; confirm the preferred homepage spotlight
+- Replace interim video frames with Sam's preferred high-resolution posters
+- Consider dedicated video hosting for reliable, branded in-page playback

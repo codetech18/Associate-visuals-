@@ -7,16 +7,9 @@ export type Project = {
   role?: string;
   category: ProjectCategory;
   featured: boolean;
-  featuredSize?: 'large' | 'medium';
   brief?: string;
-  video: { driveId: string; poster?: string };
-  caseStudy?: {
-    format: string;
-    intro: string;
-    intent: string;
-    treatment: string;
-    focus: readonly string[];
-  };
+  format?: string;
+  video: { driveId: string; poster?: string; orientation?: 'portrait' | 'landscape'; src?: string };
   stills?: string[];
 };
 export const categoryLabels: Record<ProjectCategory, string> = {
@@ -36,53 +29,37 @@ export const projects: Project[] = [
   },
   {
     "slug": "consumer-hallatv-interview",
-    "title": "Consumer HallaTV interview",
+    "title": "Consumer HallaTV — The interview",
+    "brief": "An interview film that puts the conversation centre stage. Part of the Consumer HallaTV work in the Associate Visuals collection.",
     "category": "interviews-ads",
     "featured": true,
-    "featuredSize": "medium",
+    "format": "Interview film",
     "video": {
       "driveId": "1rdnAU4M0Q1u7qlCN2M0RiyQesgdMpoRc"
-    },
-    "caseStudy": {
-      "format": "Interview film",
-      "intro": "A clean, personality-led interview piece with a composed visual treatment that keeps the speaker at the centre of the story.",
-      "intent": "Give the conversation room to feel natural while maintaining the polish and visual clarity expected from branded editorial content.",
-      "treatment": "Balanced framing, controlled background separation, and dialogue-led pacing create a confident film without distracting from the person speaking.",
-      "focus": ["Interview composition", "Natural delivery", "Editorial pacing"]
     }
   },
   {
     "slug": "griddle-reel-1",
     "title": "Griddle · Reel 1",
+    "brief": "A short-form food reel from Griddle, presented in its original vertical format.",
     "category": "interviews-ads",
-    "featured": true,
-    "featuredSize": "medium",
+    "featured": false,
+    "format": "Short-form food reel",
     "video": {
-      "driveId": "1xs-ZjjVYGgMhrSMjyChDnhhUw9lxvr4C"
-    },
-    "caseStudy": {
-      "format": "Short-form food reel",
-      "intro": "A compact food film designed to turn colour, texture, and close detail into immediate appetite appeal.",
-      "intent": "Make the product read instantly on a phone screen while giving the short edit enough visual polish to feel premium.",
-      "treatment": "Tight compositions, detail-led imagery, and concise pacing keep the food tactile and the message clear from the first frame.",
-      "focus": ["Food detail", "Colour and texture", "Mobile-first pacing"]
+      "driveId": "1xs-ZjjVYGgMhrSMjyChDnhhUw9lxvr4C",
+      "orientation": "portrait"
     }
   },
   {
     "slug": "nautica-beach-highlight",
-    "title": "Nautica Beach highlight",
+    "title": "Nautica Beach",
+    "brief": "A vertical highlight film from Nautica Beach, bringing together the location and the experience.",
     "category": "interviews-ads",
     "featured": true,
-    "featuredSize": "large",
+    "format": "Experience highlight",
     "video": {
-      "driveId": "1YMOXOYWdS5bRCcnQUzIqHVUTcE6mE2Jt"
-    },
-    "caseStudy": {
-      "format": "Experience highlight",
-      "intro": "A location-led lifestyle film built around movement, atmosphere, and the sense of escape surrounding the Nautica Beach experience.",
-      "intent": "Translate an active day on location into a concise highlight that feels energetic, inviting, and grounded in the environment.",
-      "treatment": "Action, human moments, and wider location views are brought together through rhythmic pacing to give the experience a clear sense of place.",
-      "focus": ["Lifestyle coverage", "Movement and energy", "Location atmosphere"]
+      "driveId": "1YMOXOYWdS5bRCcnQUzIqHVUTcE6mE2Jt",
+      "orientation": "portrait"
     }
   },
   {
@@ -96,25 +73,30 @@ export const projects: Project[] = [
   },
   {
     "slug": "redwood-review",
-    "title": "Redwood review",
+    "title": "Redwood — A different perspective",
+    "format": "Location & aerial film",
+    "brief": "A location film with an aerial perspective. Explore the Redwood film from the Associate Visuals collection.",
     "category": "interviews-ads",
-    "featured": false,
+    "featured": true,
     "video": {
       "driveId": "1-wa5As2uecq7BvSJurv0FJy86G4N5Bsx"
     }
   },
   {
     "slug": "zizou-project-trailer",
-    "title": "ZIZOU project trailer",
+    "title": "ZIZOU — The trailer",
+    "format": "Project trailer",
+    "brief": "A short trailer for the ZIZOU project. Watch the landscape preview featured on the homepage, or open the original film on Google Drive.",
     "category": "interviews-ads",
-    "featured": false,
+    "featured": true,
     "video": {
-      "driveId": "1TlfmQF5VE0PRhDlzd6u9CzKHd0pNXAGZ"
+      "driveId": "1TlfmQF5VE0PRhDlzd6u9CzKHd0pNXAGZ",
+      "src": "/videos/zizou-project-trailer.mp4?v=2"
     }
   },
   {
     "slug": "choose-spaces",
-    "title": "Choose spaces that inspires",
+    "title": "Choose spaces that inspire",
     "category": "talking-head",
     "featured": false,
     "video": {
@@ -206,4 +188,8 @@ export const projects: Project[] = [
 export function getProject(slug: string): Project | undefined {
   return projects.find((project) => project.slug === slug);
 }
-export const featuredProjects = projects.filter((project) => project.featured);
+export function getVideoOrientation(project: Project): 'portrait' | 'landscape' {
+  return project.video.orientation ?? (project.category === 'talking-head' ? 'portrait' : 'landscape');
+}
+const featuredOrder = ['nautica-beach-highlight', 'consumer-hallatv-interview', 'zizou-project-trailer', 'redwood-review'];
+export const featuredProjects = featuredOrder.map(slug => getProject(slug)!).filter(Boolean);

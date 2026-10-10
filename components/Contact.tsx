@@ -1,31 +1,18 @@
-import RevealOnScroll from '@/components/RevealOnScroll';
 import { site } from '@/content/site';
+import styles from './portfolio.module.css';
 
 export default function Contact() {
   return (
-    <section id="contact" className="border-t border-hairline">
-      <div className="mx-auto grid max-w-7xl gap-8 px-5 py-8 md:grid-cols-2 md:items-center md:px-10 md:py-12">
-        <RevealOnScroll>
-          <p className="label-micro text-muted">Contact</p>
-          <p className="text-big mt-4 max-w-[20ch]">
-            What are you planning to shoot?
-          </p>
-          <p className="mt-4 max-w-[45ch] text-muted">Tell Sam what you have in mind, where you want to shoot, and your ideal timeline.</p>
-          <div className="mt-5 flex flex-col items-start text-[15px] text-muted">
-            <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center break-all underline underline-offset-4 hover:text-primary">{site.email}</a>
-            <a href={`tel:${site.phone.replace(/\s/g, '')}`} className="inline-flex min-h-11 items-center hover:text-primary">{site.phone}</a>
+    <section id="contact" className={`section-space ${styles.contact}`} aria-labelledby="contact-title">
+      <div className="shell">
+        <p className="eyebrow">Let’s make something worth watching</p>
+        <div className={styles.contactGrid}>
+          <h2 id="contact-title" className={styles.contactHeading}>Have a story<br /><em className="editorial">in mind?</em></h2>
+          <div className={styles.contactCopy}><p>Tell me what you’re planning, where you want to shoot, and your ideal timeline. We’ll start with a conversation.</p>
+            <a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className={styles.contactAction}>Talk to Sam <span aria-hidden="true">↗</span></a>
           </div>
-        </RevealOnScroll>
-        <RevealOnScroll className="md:justify-self-end">
-          <a
-            href={site.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="button-primary"
-          >
-            Chat with Sam on WhatsApp ↗
-          </a>
-        </RevealOnScroll>
+        </div>
+        <div className={styles.contactDetails}><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a><span className="inline-flex min-h-11 items-center">Based in {site.location}</span></div>
       </div>
     </section>
   );

@@ -1,24 +1,14 @@
-import RevealOnScroll from '@/components/RevealOnScroll';
-import { processSteps } from '@/content/process';
+import styles from './portfolio.module.css';
 
-// The one section where numbering is genuinely sequential.
+const steps = [
+  ['01 / Align', 'Start with the story', 'We discuss the audience, direction, locations, and deliverables before the shoot.'],
+  ['02 / Create', 'Make every frame count', 'The production brings together light, composition, movement, and the details that matter.'],
+  ['03 / Refine', 'Shape the final film', 'Editing, sound, and colour bring the story together, ready for its intended screen.'],
+];
+
 export default function Process() {
-  return (
-    <section className="border-t border-hairline">
-      <div className="mx-auto max-w-7xl px-5 py-8 md:px-10 md:py-12">
-        <RevealOnScroll>
-          <p className="label-micro text-muted">Process</p>
-        </RevealOnScroll>
-        <RevealOnScroll className="mt-6 grid divide-y divide-hairline md:grid-cols-3 md:divide-x md:divide-y-0">
-          {processSteps.map((step) => (
-            <div key={step.number} className="py-5 md:px-8 md:py-2 md:first:pl-0 md:last:pr-0">
-              <p className="font-mono text-[11px] text-accent">{step.number}</p>
-              <p className="mt-3 text-[15px] font-medium">{step.name}</p>
-              <p className="mt-2 text-[15px] text-muted">{step.description}</p>
-            </div>
-          ))}
-        </RevealOnScroll>
-      </div>
-    </section>
-  );
+  return <section className={styles.process} aria-labelledby="process-title"><div className={`shell ${styles.processInner}`}>
+    <h2 id="process-title" className="eyebrow text-accent">A clear process,<br />from start to finish.</h2>
+    <div className={styles.processSteps}>{steps.map(([label, title, description]) => <div key={label}><p className="eyebrow mb-3">{label}</p><h3>{title}</h3><p>{description}</p></div>)}</div>
+  </div></section>;
 }

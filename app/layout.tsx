@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import { LenisProvider } from "@/lib/lenis";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -76,7 +75,8 @@ export default function RootLayout({
       className={`${interTight.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="bg-background font-sans text-primary">
-        <LenisProvider>{children}</LenisProvider>
+        <a href="#main-content" className="skip-link">Skip to content</a>
+        {children}
         <Analytics />
         <script
           type="application/ld+json"

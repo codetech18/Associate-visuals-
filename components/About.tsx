@@ -1,73 +1,30 @@
 import Image from 'next/image';
-import RevealOnScroll from '@/components/RevealOnScroll';
 import { site } from '@/content/site';
-
-const strengths = [
-  ['01', 'Visual direction', 'A clear idea, visual language, and plan before the camera rolls.'],
-  ['02', 'Production', 'Purposeful lighting, composition, movement, and drone coverage.'],
-  ['03', 'Post-production', 'Editing and colour that give every film rhythm, polish, and consistency.'],
-] as const;
+import styles from './portfolio.module.css';
 
 export default function About() {
   return (
-    <section id="about" className="border-t border-hairline">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[1.5fr_1fr] md:items-start md:gap-16 md:px-10 md:py-20">
-        <RevealOnScroll className="order-last md:order-first">
-          <p className="label-micro text-muted">About</p>
-          <p className="text-big mt-4 max-w-[28ch]">
-            I&apos;m Sam, a Lagos-based cinematographer creating films that look
-            considered and communicate clearly.
-          </p>
-          <div className="mt-6 max-w-[68ch] space-y-4 text-muted">
-            <p>
-              I help brands, property teams, and creators turn an idea into a
-              film people want to keep watching. The work starts before the
-              shoot—with the audience, message, location, light, and feeling
-              each frame needs to carry.
-            </p>
-            <p>
-              From production through editing and colour, I stay close to the
-              details so the final piece feels consistent and made for the
-              screen where it will live. Whether it is a property film, brand
-              campaign, interview, or social edit, the aim is the same: strong
-              images with a clear purpose.
-            </p>
+    <section id="about" className="paper section-space" aria-labelledby="about-title">
+      <div className="shell">
+        <div className={styles.sectionTop}>
+          <p className="eyebrow">01 / Behind the camera</p>
+          <p className="eyebrow">A personal approach.<br />A considered result.</p>
+        </div>
+        <div className={styles.aboutGrid}>
+          <figure className={styles.aboutPhoto}>
+            <div className={styles.portrait}>
+              <Image src="/images/sam-portrait.jpg" alt="Sam, cinematographer behind Associate Visuals" fill sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1200px) 35vw, 450px" className="object-cover object-[center_35%]" />
+            </div>
+            <figcaption className={`eyebrow ${styles.portraitCaption}`}><span>Sam / Associate Visuals</span><span>Lagos, NG</span></figcaption>
+          </figure>
+          <div className={styles.aboutCopy}>
+            <h2 id="about-title" className="section-title">The eye behind<br /><em className="editorial">the frame.</em></h2>
+            <p className={styles.aboutIntro}>I’m Sam, a Lagos-based cinematographer. I help brands, property teams, and creators turn an idea into a film people want to watch.</p>
+            <p className={styles.aboutBody}>My work connects the shoot and the edit: finding the right light, composing with purpose, and shaping the rhythm through post-production. The aim is simple—a film that feels right for your story, not just a collection of good-looking shots.</p>
+            <div className={`eyebrow ${styles.aboutTags}`}><span>Cinematography</span><span>Editing & colour</span><span>Drone coverage</span></div>
+            <a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className="text-link mt-7">Let’s talk about your film</a>
           </div>
-
-          <div className="mt-8 border-b border-hairline">
-            {strengths.map(([number, title, description]) => (
-              <div
-                key={number}
-                className="grid gap-2 border-t border-hairline py-4 sm:grid-cols-[40px_140px_1fr] sm:items-start"
-              >
-                <span className="label-micro text-accent">{number}</span>
-                <span className="font-medium">{title}</span>
-                <span className="text-[15px] text-muted">{description}</span>
-              </div>
-            ))}
-          </div>
-
-          <a
-            href={site.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex min-h-12 items-center text-[15px] text-accent underline underline-offset-4 transition-colors duration-200 hover:text-primary"
-          >
-            Tell me about your project →
-          </a>
-        </RevealOnScroll>
-
-        <RevealOnScroll className="order-first md:order-last">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface">
-            <Image
-              src="/images/sam-portrait.jpg"
-              alt="Portrait of Sam, cinematographer and founder of Associate Visuals"
-              fill
-              sizes="(max-width: 767px) 100vw, 34vw"
-              className="object-cover object-[center_35%]"
-            />
-          </div>
-        </RevealOnScroll>
+        </div>
       </div>
     </section>
   );

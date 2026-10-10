@@ -1,45 +1,22 @@
+import Image from 'next/image';
 import Link from 'next/link';
-import { categoryLabels, type Project } from '@/content/projects';
+import { categoryLabels, getVideoOrientation, type Project } from '@/content/projects';
+import styles from './portfolio.module.css';
 
-type TileAspect = 'large' | 'medium' | 'uniform';
-
-// All tiles are 16/10 on mobile; desktop aspect varies by placement.
-const aspectClasses: Record<TileAspect, string> = {
-  large: 'aspect-[16/10] md:aspect-[16/9]',
-  medium: 'aspect-[16/10] md:aspect-[4/5]',
-  uniform: 'aspect-[16/10]',
-};
-
-export default function ProjectTile({
-  project,
-  aspect = 'uniform',
-  className,
-}: {
+export default function ProjectTile({ project, aspect = 'uniform', number }: {
   project: Project;
-  aspect?: TileAspect;
-  className?: string;
+  aspect?: 'large' | 'medium' | 'uniform';
+  number?: number;
 }) {
   return (
-    <Link
-      href={`/work/${project.slug}`}
-      className={`group focus-rack-item relative block overflow-hidden bg-surface ${aspectClasses[aspect]} ${className ?? ''}`}
-    >
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 scale-[1.01] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-        style={{
-          backgroundImage: `url(/images/previews/${project.slug}.jpg)`,
-        }}
-      />
-      <div aria-hidden="true" className="absolute inset-0 flex items-center justify-center bg-background/10 transition-colors duration-300 group-hover:bg-transparent">
-        <span className="flex h-14 w-14 items-center justify-center rounded-full border border-primary/60 bg-background/50 text-primary backdrop-blur-sm">▶</span>
-        <span className="label-micro absolute left-4 top-4 text-muted">Watch project ↗</span>
+    <Link href={`/work/${project.slug}`} className={styles.tile}>
+      <div className={`${styles.tileMedia} ${aspect === 'medium' ? styles.tilePortrait : ''} ${aspect === 'uniform' && getVideoOrientation(project) === 'portrait' ? styles.tileNativePortrait : ''}`}>
+        <Image src={`/images/previews/${project.slug}.jpg`} alt="" fill sizes={aspect === 'uniform' ? '(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) 45vw, 30vw' : '(max-width: 767px) calc(100vw - 40px), 50vw'} className={styles.tileImage} style={getVideoOrientation(project) === 'portrait' && aspect === 'uniform' ? { objectFit: 'contain', background: '#242820' } : undefined} />
+        {number && <span className={`eyebrow ${styles.tileNumber}`} aria-hidden="true">{String(number).padStart(2, '0')}</span>}
       </div>
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/70 to-transparent p-4 pt-10">
-        <p className="text-[17px] font-medium">{project.title}</p>
-        <p className="label-micro mt-1 text-muted">
-          {categoryLabels[project.category]}{project.year ? ` · ${project.year}` : ''}
-        </p>
+      <div className={styles.tileCaption}>
+        <div><h3>{project.title}</h3><p className="eyebrow">{project.format ?? categoryLabels[project.category]}</p></div>
+        <span aria-hidden="true">View film</span>
       </div>
     </Link>
   );

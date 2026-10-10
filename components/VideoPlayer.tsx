@@ -1,40 +1,45 @@
 'use client';
-import { useState } from 'react';
 
-export default function VideoPlayer({
-  driveId,
-  label,
-  poster,
-}: {
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import styles from './portfolio.module.css';
+
+export default function VideoPlayer({ driveId, label, poster, orientation = 'landscape', src }: {
   driveId: string;
   label: string;
   poster: string;
+  orientation?: 'portrait' | 'landscape';
+  src?: string;
 }) {
-  const [loaded, setLoaded] = useState(false);
+  const [embedded, setEmbedded] = useState(false);
+  const [status, setStatus] = useState('');
+  const [nativeFailed, setNativeFailed] = useState(false);
   const url = `https://drive.google.com/file/d/${driveId}`;
-  return (
-    <div>
-      <div className="relative aspect-video w-full overflow-hidden bg-surface">
-        {loaded ? (
-          <iframe src={`${url}/preview`} title={label} allow="autoplay; fullscreen" allowFullScreen className="absolute inset-0 h-full w-full border-0" />
-        ) : (
-          <button
-            type="button"
-            onClick={() => setLoaded(true)}
-            aria-label={`Load video: ${label}`}
-            className="absolute inset-0 flex w-full flex-col items-center justify-center gap-4 bg-cover bg-center p-6 text-center focus-visible:-outline-offset-4"
-            style={{ backgroundImage: `linear-gradient(rgb(20 18 15 / 0.28), rgb(20 18 15 / 0.58)), url(${poster})` }}
-          >
-            <span aria-hidden="true" className="flex h-16 w-16 items-center justify-center rounded-full border border-accent text-xl text-accent">▶</span>
-            <span className="text-section max-w-[30ch] drop-shadow-lg">{label}</span>
-            <span className="label-micro text-primary/80">Play film</span>
-          </button>
-        )}
-      </div>
-      <div className="flex flex-wrap items-center justify-between gap-x-4 px-5 py-2 text-sm text-muted">
-        <p>Video loads only when you choose to watch.</p>
-        <a href={`${url}/view`} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-primary">Open in Google Drive ↗</a>
+  const native = Boolean(src) && !nativeFailed;
+
+  useEffect(() => {
+    if (!embedded) return;
+    const timer = window.setTimeout(() => setStatus('Still blank? Open the film in Google Drive instead.'), 8000);
+    return () => window.clearTimeout(timer);
+  }, [embedded]);
+
+  return <div>
+    <div className={`${styles.player} ${orientation === 'portrait' ? styles.playerPortrait : styles.playerLandscape}`}>
+      {native ? <video src={src} poster={poster} aria-label={label} controls playsInline preload="none" className="absolute inset-0 h-full w-full object-contain" onError={() => setNativeFailed(true)} /> : <>
+        <Image src={poster} alt={`Preview of ${label}`} fill loading="eager" sizes={orientation === 'portrait' ? '(max-width: 480px) calc(100vw - 40px), 440px' : '(max-width: 767px) calc(100vw - 40px), 90vw'} className={styles.playerPoster} />
+        <div className={styles.playerShade} aria-hidden="true" />
+        {embedded ? <iframe src={`${url}/preview`} title={label} allow="autoplay; fullscreen" allowFullScreen className={styles.playerFrame} onLoad={() => setStatus('If the player is blank or unavailable, open the film in Google Drive.')} /> : <div className={styles.playerControls}>
+          <a href={`${url}/view`} target="_blank" rel="noopener noreferrer" className={styles.watchLink} aria-label={`Watch ${label} in Google Drive (opens in a new tab)`}><span className={styles.watchCircle} aria-hidden="true">▷</span>Watch film<span className="eyebrow">Opens in Google Drive</span></a>
+          <button type="button" onClick={() => { setEmbedded(true); setStatus('Opening the Google Drive player…'); }} className={styles.embedButton}>Try playing on this page</button>
+        </div>}
+      </>}
+    </div>
+    <div className={styles.playerHelp}>
+      <p role="status" className="max-w-[60ch] self-center">{embedded ? status : native ? 'Press play to watch. This film loads only when you choose.' : 'No video download until you choose to watch.'}</p>
+      <div className="flex flex-wrap items-center gap-x-5">
+        {embedded && <button type="button" onClick={() => { setEmbedded(false); setStatus(''); }}>Back to preview</button>}
+        <a href={`${url}/view`} target="_blank" rel="noopener noreferrer">{native ? 'Original on Google Drive' : 'Open Google Drive'}</a>
       </div>
     </div>
-  );
+  </div>;
 }

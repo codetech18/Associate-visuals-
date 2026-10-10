@@ -3,7 +3,7 @@ export const site = {
   wordmark: "Associate Visuals",
   owner: "Sam",
   location: "Lagos, Nigeria",
-  headline: "Films that make your brand worth watching.",
+  headline: "Make them feel something.",
   subheadline:
     "Cinematography and post-production for real estate, brands, and creators. Based in Lagos, from the first idea to the final cut.",
   email: "associatekoith@gmail.com",
