@@ -8,8 +8,10 @@ export default function Hero() {
     <section className={styles.hero} aria-labelledby="hero-title">
       <HeroReel label="ZIZOU project trailer">
         <div className={`shell ${styles.heroContent}`}>
-          <p className="eyebrow">Independent cinematographer · Lagos, Nigeria</p>
-          <h1 id="hero-title" className={styles.heroHeading}>Make them<br /><em className="editorial">feel something.</em></h1>
+          <div className={styles.heroIntro}>
+            <p className={`eyebrow ${styles.heroKicker}`}><span>Independent cinematographer</span><span className={styles.heroLocation}>Lagos, Nigeria</span></p>
+            <h1 id="hero-title" className={styles.heroHeading}>Make them<br /><em className="editorial">feel something.</em></h1>
+          </div>
           <div className={styles.heroBottom}>
             <p>Cinematography and post-production for brands, spaces, and people. Every frame, with intention.</p>
             <div className={styles.heroActions}>

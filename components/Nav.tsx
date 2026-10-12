@@ -39,9 +39,9 @@ export default function Nav() {
       <dialog ref={dialog} id="mobile-menu" aria-label="Navigation menu" className={styles.menu} onClose={() => { setOpen(false); trigger.current?.focus(); }}>
         <div className={styles.menuTop}><span className={styles.wordmark}>{site.wordmark}</span><button type="button" className={styles.menuClose} onClick={() => dialog.current?.close()} aria-label="Close menu">Close ×</button></div>
         <nav className={styles.menuLinks} aria-label="Mobile navigation">
-          {[...links, { href: '/#contact', label: 'Start a project' }].map(link => <Link key={link.href} href={link.href} onClick={() => dialog.current?.close()}>{link.label}</Link>)}
+          {[...links, { href: '/#contact', label: 'Start a project' }].map((link, index) => <Link key={link.href} href={link.href} onClick={() => dialog.current?.close()}><span className={`eyebrow ${styles.menuIndex}`} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{link.label}</Link>)}
         </nav>
-        <p className="eyebrow mt-16 text-muted">Cinematography & post-production<br />Lagos, Nigeria</p>
+        <div className={styles.menuBottom}><p className="eyebrow text-muted">Cinematography & post-production<br />Lagos, Nigeria</p><a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className="text-link">Discuss a film on WhatsApp</a></div>
       </dialog>
     </header>
   );

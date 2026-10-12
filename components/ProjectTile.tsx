@@ -11,7 +11,7 @@ export default function ProjectTile({ project, aspect = 'uniform', number }: {
   return (
     <Link href={`/work/${project.slug}`} className={styles.tile}>
       <div className={`${styles.tileMedia} ${aspect === 'medium' ? styles.tilePortrait : ''} ${aspect === 'uniform' && getVideoOrientation(project) === 'portrait' ? styles.tileNativePortrait : ''}`}>
-        <Image src={`/images/previews/${project.slug}.jpg`} alt="" fill sizes={aspect === 'uniform' ? '(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) 45vw, 30vw' : '(max-width: 767px) calc(100vw - 40px), 50vw'} className={styles.tileImage} style={getVideoOrientation(project) === 'portrait' && aspect === 'uniform' ? { objectFit: 'contain', background: '#242820' } : undefined} />
+        <Image src={`/images/previews/${project.slug}.jpg`} alt="" fill sizes={aspect === 'uniform' ? '(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) 45vw, 30vw' : '(max-width: 767px) calc(100vw - 40px), 50vw'} className={styles.tileImage} />
         {number && <span className={`eyebrow ${styles.tileNumber}`} aria-hidden="true">{String(number).padStart(2, '0')}</span>}
       </div>
       <div className={styles.tileCaption}>

@@ -134,7 +134,13 @@ main[id] { scroll-margin-top: 90px; }
   animation: rec-pulse 1.2s ease-in-out infinite;
 }
 
-@media (max-width: 767px) { .shell { width: calc(100% - 40px); } }
+@media (max-width: 767px) {
+  .shell { width: calc(100% - 40px); }
+  .section-space { padding-block: 64px; }
+  .section-title { font-size: clamp(34px, 9.5vw, 48px); }
+  .display { font-size: clamp(44px, 12vw, 64px); }
+  section[id], main[id] { scroll-margin-top: 84px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
